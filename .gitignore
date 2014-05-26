@@ -21,5 +21,7 @@ DerivedData
 Pods
 
 #Java
-server/bin
-server/.settings
+chat-server/.settings/
+chat-server/target/
+feed-server/.settings/
+feed-server/target/
