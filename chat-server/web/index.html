@@ -3,7 +3,7 @@
 <head>
 <title>Chat</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 <style>
 #chatconnect { float:right; margin-top:6px; }
 #chat { overflow:scroll; height:260px; max-height:260px; }
@@ -32,8 +32,8 @@
 
 </div> <!-- /container -->
 
-<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script>
 $(function() {
 
@@ -41,8 +41,7 @@ var conn = null;
 
 function connect() {
   disconnect();
-
-  conn = new WebSocket('ws://localhost:7117/chat/');
+  conn = new WebSocket('ws://' + location.hostname + ':7006/chat/');
 
   conn.onopen = function(evt) {
     console.log('Connected!');
@@ -64,7 +63,7 @@ function connect() {
   conn.onmessage = function(evt) {
 	// incoming message, so convert to html and display, autoscroll as necessary
     var orig = $('#chat').html();
-    var chat = evt.data.replace(/^(.*?):\s+(.*)$/, "<span><b>$1:</b> $2</span>");
+    var chat = evt.data.replace(/^(.*?)\|(.*)$/, '<span><b>$1:</b> $2</span>');
     $('#chat').html(orig + '<br />' + chat);
     $('#chat').stop().animate({ scrollTop: $('#chat')[0].scrollHeight }, 800);
   };
@@ -80,13 +79,13 @@ function disconnect() {
 
 function update_ui() {
   if (conn == null || conn.readyState != WebSocket.OPEN) {
-    $('#chat').html('<i>disconnected!</i>');
+    $('#chat').html('<i class="text-muted">disconnected!</i>');
     $('#chatconnect').prop('disabled',false);
     $('#chatconnect').text('CONNECT');
     $('#chatconnect').removeClass('btn-danger');
     $('#chatconnect').addClass('btn-success');
   } else {
-    $('#chat').html('<i>connected!</i>');
+    $('#chat').html('<i class="text-muted">connected!</i>');
     $('#chatconnect').prop('disabled',false);
     $('#chatconnect').text('DISCONNECT');
     $('#chatconnect').addClass('btn-danger');
@@ -94,8 +93,8 @@ function update_ui() {
   }
 }
 
-$('form').submit(function() {
-  var out = $('#chatname').val().trim() + ': ' + $('#chatmsg').val().trim();
+$('#chatform').submit(function() {
+  var out = $('#chatname').val().trim() + '|' + $('#chatmsg').val().trim();
   conn.send(out);
   $('#chatmsg').val('').focus();
   return false;

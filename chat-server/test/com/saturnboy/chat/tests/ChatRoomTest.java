@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
+import org.eclipse.jetty.websocket.api.BatchMode;
 import org.eclipse.jetty.websocket.api.CloseStatus;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
@@ -34,32 +35,41 @@ public class ChatRoomTest {
 		member1.onText("hello2");
 
 		// verify that there are now two messages in the queue
-		assertThat(session1.getMessages().size(), is(2));
-		assertThat(session1.getMessages(), hasItems("hello1", "hello2"));
+		assertThat(session1.testMessages().size(), is(2));
+		assertThat(session1.testMessages(), hasItems("hello1", "hello2"));
 
 		MockSession session2 = new MockSession();
 		ChatSocket member2 = new ChatSocket();
 		member2.onConnect(session2);
 
 		// immediately upon connection session2 should get the queued messages
-		assertThat(session2.getMessages().size(), is(2));
-		assertThat(session2.getMessages(), hasItems("hello1", "hello2"));
+		assertThat(session2.testMessages().size(), is(2));
+		assertThat(session2.testMessages(), hasItems("hello1", "hello2"));
 
 		member2.onText("hello3");
 
 		// now both sessions should have all 3 messages
-		assertThat(session1.getMessages().size(), is(3));
-		assertThat(session1.getMessages(), hasItems("hello1", "hello2", "hello3"));
+		assertThat(session1.testMessages().size(), is(3));
+		assertThat(session1.testMessages(), hasItems("hello1", "hello2", "hello3"));
 
-		assertThat(session2.getMessages().size(), is(3));
-		assertThat(session2.getMessages(), hasItems("hello1", "hello2", "hello3"));
+		assertThat(session2.testMessages().size(), is(3));
+		assertThat(session2.testMessages(), hasItems("hello1", "hello2", "hello3"));
 	}
 
 	public static class MockRemote implements RemoteEndpoint {
 		List<String> messages = new ArrayList<String>();
 
-		public List<String> getMessages() {
+		public List<String> testMessages() {
 			return messages;
+		}
+
+		@Override
+		public void flush() throws IOException {
+		}
+
+		@Override
+		public BatchMode getBatchMode() {
+			return null;
 		}
 
 		@Override
@@ -109,8 +119,8 @@ public class ChatRoomTest {
 	public static class MockSession implements Session {
 		private MockRemote mockRemote = new MockRemote();
 
-		public List<String> getMessages() {
-			return mockRemote.getMessages();
+		public List<String> testMessages() {
+			return mockRemote.testMessages();
 		}
 
 		@Override

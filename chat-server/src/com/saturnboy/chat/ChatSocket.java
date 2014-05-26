@@ -24,7 +24,7 @@ public class ChatSocket {
 	/** New connection, so join shared chat. */
 	@OnWebSocketConnect
 	public void onConnect(Session session) {
-		Logger.log("CONNECT " + session.hashCode());
+		System.out.println("CONNECT " + session.hashCode());
 		this.session = session;
 		ChatRoom.INSTANCE.join(this);
 	}
@@ -32,7 +32,7 @@ public class ChatSocket {
 	/** Close connection, so leave shared chat. */
 	@OnWebSocketClose
 	public void onClose(int statusCode, String reason) {
-		Logger.log("CLOSE " + session.hashCode() + ": " + statusCode + " "
+		System.out.println("CLOSE " + session.hashCode() + ": " + statusCode + " "
 				+ (reason == null ? "unknown" : reason));
 		session.close();
 		ChatRoom.INSTANCE.leave(this);
@@ -40,7 +40,7 @@ public class ChatSocket {
 
 	@OnWebSocketError
 	public void onError(Throwable t) {
-		Logger.log("ERROR " + session.hashCode() + ": " + t.getMessage());
+		System.out.println("ERROR " + session.hashCode() + ": " + t.getMessage());
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class ChatSocket {
 	 */
 	@OnWebSocketMessage
 	public void onText(String message) throws InterruptedException {
-		Logger.log("MESSAGE " + session.hashCode() + ": " + message);
+		System.out.println("MESSAGE " + session.hashCode() + ": " + message);
 		ChatRoom.INSTANCE.send(message);
 	}
 }

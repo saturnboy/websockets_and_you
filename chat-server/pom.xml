@@ -6,11 +6,8 @@
 	<version>1.0</version>
 
 	<build>
-		<directory>bin</directory>
 		<sourceDirectory>src</sourceDirectory>
-		<outputDirectory>bin/classes</outputDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
-		<testOutputDirectory>bin/tests</testOutputDirectory>
 		<resources>
 			<resource>
 				<directory>web</directory>
@@ -70,12 +67,12 @@
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
-			<version>9.1.0.v20131115</version>
+			<version>9.1.5.v20140505</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty.websocket</groupId>
 			<artifactId>websocket-server</artifactId>
-			<version>9.1.0.v20131115</version>
+			<version>9.1.5.v20140505</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

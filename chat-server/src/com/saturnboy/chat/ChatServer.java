@@ -15,7 +15,7 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
  * </ol>
  */
 public class ChatServer {
-	private static final int PORT = 7117;
+	private static final int PORT = 7006;
 
 	public static void main(String[] args) {
 		System.out.println("ChatServer");
