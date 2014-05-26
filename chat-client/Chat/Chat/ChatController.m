@@ -63,7 +63,7 @@
     NSString *msg = self.messages[indexPath.item];
     [cell setupCell:msg];
     
-    if ([msg hasPrefix:[NSString stringWithFormat:@"%@: ", self.nameTxt.text]]) {
+    if ([msg hasPrefix:[NSString stringWithFormat:@"%@|", self.nameTxt.text]]) {
         cell.backgroundColor = [UIColor colorWithRed:0.2f green:0.6f blue:1.0f alpha:0.2f];
     } else {
         cell.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.2f];
@@ -121,7 +121,7 @@
     NSLog(@"sendClick");
     
     //send msg to server
-    NSString *msg = [NSString stringWithFormat:@"%@: %@", self.nameTxt.text, self.messageTxt.text];
+    NSString *msg = [NSString stringWithFormat:@"%@|%@", self.nameTxt.text, self.messageTxt.text];
     [self.webSocket send:msg];
     self.messageTxt.text = nil;
 }
@@ -150,7 +150,7 @@
 
 - (void)connect {
     [self disconnect];
-    self.webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"ws://localhost:7117/chat/"]]];
+    self.webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"ws://localhost:7006/chat/"]]];
     self.webSocket.delegate = self;
     [self.webSocket open];
 }
