@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+<style>
+#chatconnect { float:right; margin-top:6px; }
+#chat { overflow:scroll; height:260px; max-height:260px; }
+#chatmsg { min-width:280px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Chat <button class="btn btn-xs btn-success" id="chatconnect" disabled="disabled">CONNECT</button></h1>
+
+<div id="chat" class="well well-sm">chat...</div>
+
+<form id="chatform" class="form-inline">
+  <div class="form-group">
+    <label class="sr-only" for="chatname">Name</label>
+    <input type="text" class="form-control" id="chatname" placeholder="-name-" />
+  </div>
+  <div class="form-group">
+    <label class="sr-only" for="chatmsg">Message</label>
+    <input type="text" class="form-control" id="chatmsg" placeholder="-msg-" />
+  </div>
+  <button type="submit" class="btn btn-primary" id="chatsend">SEND</button>
+</form>
+
+
+</div> <!-- /container -->
+
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script>
+$(function() {
+
+var conn = null;
+
+function connect() {
+  disconnect();
+
+  conn = new WebSocket('ws://localhost:7117/chat/');
+
+  conn.onopen = function(evt) {
+    console.log('Connected!');
+    update_ui();
+  };
+
+  conn.onclose = function(evt) {
+    console.log('Disconnected!');
+    conn = null;
+    update_ui();
+  };
+  
+  conn.onerror = function(evt) {
+    console.log('Error!');
+    conn = null;
+    update_ui();
+  };
+
+  conn.onmessage = function(evt) {
+	// incoming message, so convert to html and display, autoscroll as necessary
+    var orig = $('#chat').html();
+    var chat = evt.data.replace(/^(.*?):\s+(.*)$/, "<span><b>$1:</b> $2</span>");
+    $('#chat').html(orig + '<br />' + chat);
+    $('#chat').stop().animate({ scrollTop: $('#chat')[0].scrollHeight }, 800);
+  };
+}
+
+function disconnect() {
+  if (conn != null) {
+    conn.close();
+    conn = null;
+    update_ui();
+  }
+}
+
+function update_ui() {
+  if (conn == null || conn.readyState != WebSocket.OPEN) {
+    $('#chat').html('<i>disconnected!</i>');
+    $('#chatconnect').prop('disabled',false);
+    $('#chatconnect').text('CONNECT');
+    $('#chatconnect').removeClass('btn-danger');
+    $('#chatconnect').addClass('btn-success');
+  } else {
+    $('#chat').html('<i>connected!</i>');
+    $('#chatconnect').prop('disabled',false);
+    $('#chatconnect').text('DISCONNECT');
+    $('#chatconnect').addClass('btn-danger');
+    $('#chatconnect').removeClass('btn-success');
+  }
+}
+
+$('form').submit(function() {
+  var out = $('#chatname').val().trim() + ': ' + $('#chatmsg').val().trim();
+  conn.send(out);
+  $('#chatmsg').val('').focus();
+  return false;
+});
+
+$('#chatconnect').click(function() {
+  if (conn == null || conn.readyState != WebSocket.OPEN) {
+    connect();
+  } else {
+    disconnect();
+  }
+  return false;
+});
+
+connect();
+  
+});
+</script>
+</body>
+</html>
