@@ -10,7 +10,7 @@
 #import "SKHelper.h"
 #import "SRWebSocket.h"
 
-#define URL @"ws://10.10.10.17:7007/feed/"
+#define URL @"ws://localhost:7007/feed/"
 
 #define DT_MAX 1.0f
 #define V_MAX 100.0f

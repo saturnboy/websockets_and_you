@@ -10,7 +10,7 @@
 #import "ChatCell.h"
 #import "SRWebSocket.h"
 
-#define URL @"ws://10.10.10.17:7006/chat/"
+#define URL @"ws://localhost:7006/chat/"
 
 @interface ChatController () <SRWebSocketDelegate>
 
