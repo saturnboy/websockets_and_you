@@ -24,6 +24,9 @@
     //pause
     SKView *view = (SKView *)self.window.rootViewController.view;
     view.paused = YES;
+    if (view.scene != nil) {
+        [view.scene willMoveFromView:view];
+    }
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application

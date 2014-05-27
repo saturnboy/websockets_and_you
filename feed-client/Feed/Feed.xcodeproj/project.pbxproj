@@ -25,6 +25,10 @@
 		E07DCCC71933EF9A00BEC5EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E07DCCC51933EF9A00BEC5EF /* InfoPlist.strings */; };
 		E07DCCC91933EF9A00BEC5EF /* FeedTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E07DCCC81933EF9A00BEC5EF /* FeedTests.m */; };
 		E07DCCD31933EFDA00BEC5EF /* feed.atlas in Resources */ = {isa = PBXBuildFile; fileRef = E07DCCD21933EFDA00BEC5EF /* feed.atlas */; };
+		E0D8828B19350919000F3B1D /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D8828A19350919000F3B1D /* SRWebSocket.m */; };
+		E0D8828D193517CF000F3B1D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D8828C193517CF000F3B1D /* CFNetwork.framework */; };
+		E0D8828F193517E8000F3B1D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D8828E193517E8000F3B1D /* Security.framework */; };
+		E0D8829119351803000F3B1D /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D8829019351803000F3B1D /* libicucore.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +67,12 @@
 		E07DCCC81933EF9A00BEC5EF /* FeedTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedTests.m; sourceTree = "<group>"; };
 		E07DCCD21933EFDA00BEC5EF /* feed.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = feed.atlas; sourceTree = "<group>"; };
 		E07DCCD7193429F800BEC5EF /* SKHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKHelper.h; sourceTree = "<group>"; };
+		E0D8828819350919000F3B1D /* SocketRocket-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SocketRocket-Prefix.pch"; sourceTree = "<group>"; };
+		E0D8828919350919000F3B1D /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
+		E0D8828A19350919000F3B1D /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
+		E0D8828C193517CF000F3B1D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		E0D8828E193517E8000F3B1D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		E0D8829019351803000F3B1D /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +80,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0D8829119351803000F3B1D /* libicucore.dylib in Frameworks */,
+				E0D8828F193517E8000F3B1D /* Security.framework in Frameworks */,
+				E0D8828D193517CF000F3B1D /* CFNetwork.framework in Frameworks */,
 				E07DCC961933EF9A00BEC5EF /* CoreGraphics.framework in Frameworks */,
 				E07DCC981933EF9A00BEC5EF /* UIKit.framework in Frameworks */,
 				E07DCC9A1933EF9A00BEC5EF /* SpriteKit.framework in Frameworks */,
@@ -112,6 +125,9 @@
 		E07DCC921933EF9A00BEC5EF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E0D8829019351803000F3B1D /* libicucore.dylib */,
+				E0D8828E193517E8000F3B1D /* Security.framework */,
+				E0D8828C193517CF000F3B1D /* CFNetwork.framework */,
 				E07DCC931933EF9A00BEC5EF /* Foundation.framework */,
 				E07DCC951933EF9A00BEC5EF /* CoreGraphics.framework */,
 				E07DCC971933EF9A00BEC5EF /* UIKit.framework */,
@@ -124,6 +140,7 @@
 		E07DCC9B1933EF9A00BEC5EF /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				E0D8828719350919000F3B1D /* SocketRocket */,
 				E07DCCA41933EF9A00BEC5EF /* AppDelegate.h */,
 				E07DCCA51933EF9A00BEC5EF /* AppDelegate.m */,
 				E07DCCA71933EF9A00BEC5EF /* Main_iPhone.storyboard */,
@@ -167,6 +184,16 @@
 				E07DCCC51933EF9A00BEC5EF /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E0D8828719350919000F3B1D /* SocketRocket */ = {
+			isa = PBXGroup;
+			children = (
+				E0D8828819350919000F3B1D /* SocketRocket-Prefix.pch */,
+				E0D8828919350919000F3B1D /* SRWebSocket.h */,
+				E0D8828A19350919000F3B1D /* SRWebSocket.m */,
+			);
+			path = SocketRocket;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -216,6 +243,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Saturnboy;
 				TargetAttributes = {
+					E07DCC8F1933EF9A00BEC5EF = {
+						DevelopmentTeam = 7J4Z33CYNA;
+					};
 					E07DCCBA1933EF9A00BEC5EF = {
 						TestTargetID = E07DCC8F1933EF9A00BEC5EF;
 					};
@@ -270,6 +300,7 @@
 			files = (
 				E07DCCB21933EF9A00BEC5EF /* MyScene.m in Sources */,
 				E07DCCAF1933EF9A00BEC5EF /* ViewController.m in Sources */,
+				E0D8828B19350919000F3B1D /* SRWebSocket.m in Sources */,
 				E07DCCA61933EF9A00BEC5EF /* AppDelegate.m in Sources */,
 				E07DCCA21933EF9A00BEC5EF /* main.m in Sources */,
 			);
@@ -406,10 +437,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Feed/Feed-Prefix.pch";
 				INFOPLIST_FILE = "Feed/Feed-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -420,10 +454,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Feed/Feed-Prefix.pch";
 				INFOPLIST_FILE = "Feed/Feed-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -488,6 +525,7 @@
 				E07DCCCE1933EF9A00BEC5EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E07DCCCF1933EF9A00BEC5EF /* Build configuration list for PBXNativeTarget "FeedTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +534,7 @@
 				E07DCCD11933EF9A00BEC5EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
