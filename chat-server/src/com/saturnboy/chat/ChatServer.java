@@ -4,8 +4,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.eclipse.jetty.websocket.server.WebSocketHandler;
-import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
 /**
  * Simple embedded Jetty server with two endpoints:
@@ -18,24 +16,16 @@ public class ChatServer {
 	private static final int PORT = 7006;
 
 	public static void main(String[] args) {
-		System.out.println("ChatServer");
+		System.out.println("ChatServer: port=" + PORT);
 
 		ContextHandlerCollection contexts = new ContextHandlerCollection();
 
 		// chat handler @ /chat
 		ContextHandler ctx = new ContextHandler("/chat");
-		ctx.setHandler(new WebSocketHandler() {
-			@Override
-			public void configure(WebSocketServletFactory factory) {
-				// register the ChatSocket class -- every ws connection returns a new instance
-				factory.register(ChatSocket.class);
-				// set idle time to 15min before socket is closed
-				factory.getPolicy().setIdleTimeout(900000);
-			}
-		});
+		ctx.setHandler(new ChatHandler());
 		contexts.addHandler(ctx);
 
-		// resource handler @ / -- serves our html for the web client (right out of the jar)
+		// resource handler @ / -- serves our html page for the web client
 		ctx = new ContextHandler("/");
 		ResourceHandler web = new ResourceHandler();
 		web.setResourceBase(ChatServer.class.getClassLoader().getResource("web").toExternalForm());
@@ -48,13 +38,10 @@ public class ChatServer {
 		server.setHandler(contexts);
 
 		try {
-			System.out.println("  url=http://localhost:" + PORT + "/");
-			System.out.println("  chat=ws://localhost:" + PORT + "/chat/");
 			server.start();
 			server.join();
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("server failed to start");
 		}
 	}
 }
