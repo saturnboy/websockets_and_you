@@ -10,6 +10,8 @@
 #import "ChatCell.h"
 #import "SRWebSocket.h"
 
+#define URL @"ws://10.10.10.17:7006/chat/"
+
 @interface ChatController () <SRWebSocketDelegate>
 
 @property (nonatomic,strong) NSMutableArray *messages;
@@ -55,8 +57,8 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ChatCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"ChatCell" forIndexPath:indexPath];
     
-    NSLog(@"CHAT %d -- collView.frame=%.0fx%.0f cell.frame=%.0fx%.0f",
-              indexPath.item,
+    NSLog(@"CHAT %ld -- collView.frame=%.0fx%.0f cell.frame=%.0fx%.0f",
+              (long)indexPath.item,
               self.collectionView.frame.size.width, self.collectionView.frame.size.height,
               cell.frame.size.width, cell.frame.size.height);
     
@@ -150,7 +152,7 @@
 
 - (void)connect {
     [self disconnect];
-    self.webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"ws://localhost:7006/chat/"]]];
+    self.webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URL]]];
     self.webSocket.delegate = self;
     [self.webSocket open];
 }
@@ -179,7 +181,7 @@
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
-    NSLog(@"websocket close: %d %@", code, reason);
+    NSLog(@"websocket close: %ld %@", (long)code, reason);
     self.connectBtn.title = @"CONNECT";
     self.webSocket = nil;
 }

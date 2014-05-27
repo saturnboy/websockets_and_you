@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D07619B9188129B6006FFD53 /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = D07619B2188129B6006FFD53 /* base64.c */; };
-		D07619BA188129B6006FFD53 /* NSData+SRB64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = D07619B5188129B6006FFD53 /* NSData+SRB64Additions.m */; };
 		D07619BB188129B6006FFD53 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = D07619B8188129B6006FFD53 /* SRWebSocket.m */; };
 		D0FF1CCA1881053F00207A7B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0FF1CC91881053F00207A7B /* Foundation.framework */; };
 		D0FF1CCC1881053F00207A7B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0FF1CCB1881053F00207A7B /* CoreGraphics.framework */; };
@@ -42,10 +40,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D07619B2188129B6006FFD53 /* base64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
-		D07619B3188129B6006FFD53 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
-		D07619B4188129B6006FFD53 /* NSData+SRB64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SRB64Additions.h"; sourceTree = "<group>"; };
-		D07619B5188129B6006FFD53 /* NSData+SRB64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SRB64Additions.m"; sourceTree = "<group>"; };
 		D07619B6188129B6006FFD53 /* SocketRocket-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SocketRocket-Prefix.pch"; sourceTree = "<group>"; };
 		D07619B7188129B6006FFD53 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
 		D07619B8188129B6006FFD53 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
@@ -106,10 +100,6 @@
 		D07619B1188129B6006FFD53 /* SocketRocket */ = {
 			isa = PBXGroup;
 			children = (
-				D07619B2188129B6006FFD53 /* base64.c */,
-				D07619B3188129B6006FFD53 /* base64.h */,
-				D07619B4188129B6006FFD53 /* NSData+SRB64Additions.h */,
-				D07619B5188129B6006FFD53 /* NSData+SRB64Additions.m */,
 				D07619B6188129B6006FFD53 /* SocketRocket-Prefix.pch */,
 				D07619B7188129B6006FFD53 /* SRWebSocket.h */,
 				D07619B8188129B6006FFD53 /* SRWebSocket.m */,
@@ -244,6 +234,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Saturnboy;
 				TargetAttributes = {
+					D0FF1CC51881053E00207A7B = {
+						DevelopmentTeam = 7J4Z33CYNA;
+					};
 					D0FF1CE91881053F00207A7B = {
 						TestTargetID = D0FF1CC51881053E00207A7B;
 					};
@@ -295,8 +288,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D07619BA188129B6006FFD53 /* NSData+SRB64Additions.m in Sources */,
-				D07619B9188129B6006FFD53 /* base64.c in Sources */,
 				D0FF1D0E18811EF800207A7B /* ChatCell.m in Sources */,
 				D0FF1CE31881053F00207A7B /* ChatController.m in Sources */,
 				D07619BB188129B6006FFD53 /* SRWebSocket.m in Sources */,
@@ -436,15 +427,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chat/Chat-Prefix.pch";
 				INFOPLIST_FILE = "Chat/Chat-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/justin/Documents/justin/iphone/chat/client-ios/Chat/Chat",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -454,15 +445,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chat/Chat-Prefix.pch";
 				INFOPLIST_FILE = "Chat/Chat-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/justin/Documents/justin/iphone/chat/client-ios/Chat/Chat",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
