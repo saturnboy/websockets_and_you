@@ -10,14 +10,14 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 /**
  * Simple Jetty WebSocket POJO with annotated handlers for each type of message (connect, close,
  * error, message). Since each client gets a new instance of this class, we instantiate with the
- * same instance of {@link Game} to create a single shared world.
+ * same instance of {@link Game} to create a single shared game world.
  */
 @WebSocket(maxTextMessageSize = 64 * 1024)
-public class GameSocket {
+public class FeedSocket {
 	private Game game;
 	private Session session;
 
-	public GameSocket(Game game) {
+	public FeedSocket(Game game) {
 		this.game = game;
 	}
 
@@ -25,7 +25,7 @@ public class GameSocket {
 		return session;
 	}
 
-	/** New connection, so join shared chat. */
+	/** New connection, so join the game. */
 	@OnWebSocketConnect
 	public void onConnect(Session session) {
 		System.out.println("CONNECT " + session.hashCode());
@@ -33,7 +33,7 @@ public class GameSocket {
 		game.onJoin(this);
 	}
 
-	/** Close connection, so leave shared chat. */
+	/** Close connection, so leave the game. */
 	@OnWebSocketClose
 	public void onClose(int statusCode, String reason) {
 		System.out.println("CLOSE " + session.hashCode() + ": " + statusCode + " "
@@ -47,21 +47,16 @@ public class GameSocket {
 		System.out.println("ERROR " + session.hashCode() + ": " + t.getMessage());
 	}
 
-	/**
-	 * Handler for incoming text messages (no binary message handling).
-	 * 
-	 * @param message
-	 *            the incoming text message
-	 * @throws InterruptedException
-	 */
+	/** Handler for incoming text-only (no binary) messages. */
 	@OnWebSocketMessage
 	public void onText(String message) throws InterruptedException {
-		System.out.println("MESSAGE " + session.hashCode() + ": " + message);
 		if (message.startsWith("NAME|")) {
+			System.out.println("MESSAGE " + session.hashCode() + ": " + message);
 			game.onName(hashCode(), message.substring(5));
 		} else if (message.startsWith("POS|")) {
 			game.onPos(hashCode(), message.substring(4));
 		} else if (message.startsWith("EAT|")) {
+			System.out.println("MESSAGE " + session.hashCode() + ": " + message);
 			game.onEatFood(hashCode(), Integer.parseInt(message.substring(4)));
 		}
 	}

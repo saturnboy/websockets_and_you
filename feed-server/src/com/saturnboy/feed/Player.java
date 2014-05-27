@@ -3,15 +3,16 @@ package com.saturnboy.feed;
 import java.util.concurrent.Future;
 
 public class Player {
-	private GameSocket socket;
+	private FeedSocket socket;
 	private String name;
 	private int score;
 	private String pos;
 
-	public Player(GameSocket socket) {
+	public Player(FeedSocket socket) {
 		this.socket = socket;
-		name = "<unknown>";
+		name = "<name>";
 		score = 0;
+		pos = "0 0";
 	}
 
 	public int getId() {
@@ -49,6 +50,6 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return "Player " + getId() + ": " + name + " " + score;
+		return "Player " + getId() + ": " + name + " " + score + " " + pos.replace(" ", ",");
 	}
 }

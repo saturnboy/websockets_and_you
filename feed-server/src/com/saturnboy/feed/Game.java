@@ -12,12 +12,26 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class Game {
-	private static final int PLAYER_START_SIZE = 10;
+	/** How many players need to start a game. */
+	private static final int PLAYER_START_SIZE = 2;
+
+	/** Min number of players, game will end if number drops below this. */
 	private static final int PLAYER_MIN = 2;
-	private static final int SCORE_MAX = 5;
-	private static final int FOOD_MAX = 10;
-	private static final int FOOD_INTERVAL = 3;
-	private static final double FOOD_VELOCITY_SCALE = 10.0d;
+
+	/** Game ends when a player reaches the max score. */
+	private static final int SCORE_MAX = 99;
+
+	/** Max amount of uneaten food. When new food spawns, the oldest food is removed. */
+	private static final int FOOD_MAX = 7;
+
+	/** Spawn rate of food (in seconds). */
+	private static final int FOOD_SPAWN_INTERVAL = 2;
+
+	/** After start, wait this long before spawing first food (in seconds). */
+	private static final int FOOD_SPAWN_DELAY = 5;
+
+	/** Food velocity scale factor (in points). */
+	private static final double FOOD_VELOCITY_SCALE = 25.0d;
 
 	private Map<Integer, Player> players;
 	private SortedSet<Integer> foods;
@@ -34,20 +48,22 @@ public class Game {
 	}
 
 	/** New player joining. */
-	public synchronized void onJoin(GameSocket socket) {
+	public synchronized void onJoin(FeedSocket socket) {
 		Player player = new Player(socket);
 		player.setPos(getRandomPos());
 		players.put(player.getId(), player);
+		player.send("WELCOME|" + player.getId() + " " + player.getPos());
 
-		String msg = player.getId() + " " + player.getPos();
-		player.send("WELCOME|" + msg);
-		sendAllExcept("OTHER|" + msg, player.getId());
+		// make sure everyone knows about everyone else
+		for (Player p : players.values()) {
+			sendAllExcept("OTHER|" + p.getId() + " " + p.getPos(), p.getId());
+		}
 
 		if (players.size() >= PLAYER_START_SIZE) {
 			// start the game
 			if (!started) {
 				started = true;
-				sendAll("START");
+				sendAll("START|" + System.currentTimeMillis());
 
 				executor.scheduleWithFixedDelay(new Runnable() {
 
@@ -55,7 +71,7 @@ public class Game {
 					public void run() {
 						doSpawnFood();
 					}
-				}, 1, FOOD_INTERVAL, TimeUnit.SECONDS);
+				}, FOOD_SPAWN_DELAY, FOOD_SPAWN_INTERVAL, TimeUnit.SECONDS);
 			}
 		}
 	}
@@ -97,6 +113,7 @@ public class Game {
 	}
 
 	public synchronized void doEnd() {
+		executor.shutdown();
 		StringBuilder sb = new StringBuilder("END|");
 		for (Player p : players.values()) {
 			sb.append(p.getId()).append(":").append(p.getScore()).append(" ");
@@ -146,12 +163,25 @@ public class Game {
 		}
 	}
 
-	/** Send async message to all players EXCEPT given id. */
+	/** Send async message to all players EXCEPT the given id. */
 	public synchronized void sendAllExcept(String message, int exceptId) {
 		for (Player player : players.values()) {
 			if (player.getId() != exceptId) {
 				player.send(message);
 			}
 		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("GAME : ");
+		sb.append(started ? "started" : "not started").append(" : ");
+		sb.append(players.size()).append(" player").append(players.size() == 1 ? "\n" : "s\n");
+
+		for (Player p : players.values()) {
+			sb.append("  ").append(p.toString()).append("\n");
+		}
+
+		return sb.substring(0, sb.length() - 1);
 	}
 }

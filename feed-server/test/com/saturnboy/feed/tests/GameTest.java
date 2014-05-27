@@ -14,7 +14,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Test;
 
 import com.saturnboy.feed.Game;
-import com.saturnboy.feed.GameSocket;
+import com.saturnboy.feed.FeedSocket;
 
 public class GameTest {
 
@@ -58,7 +58,7 @@ public class GameTest {
 		Session mockSession = mock(Session.class);
 		when(mockSession.getRemote()).thenReturn(mockRemote);
 
-		GameSocket mockSocket = mock(GameSocket.class);
+		FeedSocket mockSocket = mock(FeedSocket.class);
 		when(mockSocket.getSession()).thenReturn(mockSession);
 
 		String pat = "WELCOME\\|" + mockSocket.hashCode() + " 0\\.\\d{4} 0\\.\\d{4}";
@@ -66,6 +66,9 @@ public class GameTest {
 
 		Game game = new Game();
 		game.onJoin(mockSocket);
+
+		assertThat(game.toString()).startsWith("GAME : not started : 1 player").contains(
+				"Player " + mockSocket.hashCode());
 
 		verify(mockRemote).sendStringByFuture(matches(pat));
 		verifyNoMoreInteractions(mockRemote);
